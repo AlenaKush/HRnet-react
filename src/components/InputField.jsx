@@ -1,19 +1,18 @@
-function InputField({ name, type = 'text', placeholder, value, onChange, label }) {
-    return (
-      <div className="mb-3">
-        {label && <label htmlFor={name} className="form-label">{label}</label>}
-        <input
-          id={name}
-          name={name}
-          type={type}
-          className="form-control"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-        />
-      </div>
-    );
-  }
-  
-  export default InputField;
-  
+import { Form } from 'react-bootstrap';
+
+function InputField({ name, label, type = 'text', placeholder, value, onChange }) {
+  return (
+    <Form.Group className="mb-3" controlId={name}>
+      {label && <Form.Label>{label}</Form.Label>}
+      <Form.Control
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    </Form.Group>
+  );
+}
+
+export default InputField;

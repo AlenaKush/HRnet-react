@@ -3,6 +3,8 @@ import InputField from '../components/InputField.jsx';
 import SelectField from '../components/SelectField.jsx';
 import DateField from '../components/DateField.jsx';
 import { Link } from 'react-router-dom';
+import { states, departments } from '../utils/constants';
+
 
 function CreateEmployee() {
   const [formData, setFormData] = useState({
@@ -28,7 +30,7 @@ function CreateEmployee() {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="mx-auto" style={{ maxWidth: '500px' }}>
       <h1>HRnet</h1>
       <Link to="/employee-list" className="btn btn-secondary mb-4">
         View Current Employees
@@ -46,7 +48,7 @@ function CreateEmployee() {
           label="State"
           value={formData.state}
           onChange={handleChange}
-          options={['California', 'Texas', 'New York', 'Florida', 'Washington']}
+          options={states.map(state => state.name)}
         />
         <InputField name="zipCode" label="Zip Code" value={formData.zipCode} onChange={handleChange} />
         <SelectField
@@ -54,7 +56,7 @@ function CreateEmployee() {
           label="Department"
           value={formData.department}
           onChange={handleChange}
-          options={['Sales', 'Marketing', 'Engineering', 'HR', 'Legal']}
+          options={departments}
         />
         <button type="submit" className="btn btn-primary">Save</button>
       </form>

@@ -1,18 +1,17 @@
+import { Form } from 'react-bootstrap';
+
 function DateField({ name, label, value, onChange }) {
-    return (
-      <div className="mb-3">
-        {label && <label htmlFor={name} className="form-label">{label}</label>}
-        <input
-          id={name}
-          name={name}
-          type="date"
-          className="form-control"
-          value={value}
-          onChange={onChange}
-        />
-      </div>
-    );
-  }
-  
-  export default DateField;
-  
+  return (
+    <Form.Group className="mb-3" controlId={name}>
+      {label && <Form.Label>{label}</Form.Label>}
+      <Form.Control
+        type="date"
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </Form.Group>
+  );
+}
+
+export default DateField;

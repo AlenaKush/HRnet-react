@@ -1,24 +1,25 @@
+import { Form } from 'react-bootstrap';
+
 function SelectField({ name, label, options = [], value, onChange }) {
-    return (
-      <div className="mb-3">
-        {label && <label htmlFor={name} className="form-label">{label}</label>}
-        <select
-          id={name}
-          name={name}
-          value={value}
-          onChange={onChange}
-          className="form-select"
-        >
-          <option value="">Select {label || name}</option>
-          {options.map((option) => (
+  return (
+    <Form.Group className="mb-3" controlId={name}>
+      {label && <Form.Label>{label}</Form.Label>}
+      <Form.Select name={name} value={value} onChange={onChange}>
+        <option value="">Select {label || name}</option>
+        {options.map((option) =>
+          typeof option === 'string' ? (
             <option key={option} value={option}>
               {option}
             </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
-  
-  export default SelectField;
-  
+          ) : (
+            <option key={option.abbreviation} value={option.abbreviation}>
+              {option.name}
+            </option>
+          )
+        )}
+      </Form.Select>
+    </Form.Group>
+  );
+}
+
+export default SelectField;
