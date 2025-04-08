@@ -6,9 +6,12 @@ import { Link } from "react-router-dom";
 import { states, departments } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../store/employeeSlice";
+import EmployeeModal from '../components/EmployeeModal';
+
 
 function CreateEmployee() {
-  const [formData, setFormData] = useState({
+
+  const initialState = {
     firstName: "",
     lastName: "",
     birthDate: "",
@@ -18,7 +21,9 @@ function CreateEmployee() {
     city: "",
     state: "",
     zipCode: "",
-  });
+  };
+
+  const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
 
@@ -27,21 +32,15 @@ function CreateEmployee() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
+  const [showModal, setShowModal] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(addEmployee(formData));
-    setFormData({
-      firstName: "",
-      lastName: "",
-      birthDate: "",
-      startDate: "",
-      department: "",
-      street: "",
-      city: "",
-      state: "",
-      zipCode: "",
-    });
+    setFormData(initialState);
+    setShowModal(true);   
   }
+  
 
   return (
     <div className="mx-auto" style={{ maxWidth: "500px" }}>
@@ -115,6 +114,7 @@ function CreateEmployee() {
           </button>
         </div>
       </form>
+      <EmployeeModal show={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }

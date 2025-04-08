@@ -1,4 +1,3 @@
-// src/utils/constants.js
 
 export const states = [
   { name: "Alabama", abbreviation: "AL" },
