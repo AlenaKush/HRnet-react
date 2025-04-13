@@ -1,10 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-import employeeReducer from './employeeSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import employeeReducer from "./employeeSlice";
+import { mockEmployees } from "../data/mockEmployees";
 
-const store = configureStore({
+const preloadedState = {
+  employees: {
+    employees: mockEmployees,
+    initialized: true,
+  },
+};
+
+export const store = configureStore({
   reducer: {
-    employees: employeeReducer
-  }
+    employees: employeeReducer,
+  },
+  preloadedState,
 });
+
 
 export default store;

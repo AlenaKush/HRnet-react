@@ -1,7 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function EmployeeModal({ show, onClose }) {
+function EmployeeModal({ show, onClose, message }) {
   const navigate = useNavigate();
 
   function handleGoToList() {
@@ -12,7 +12,7 @@ function EmployeeModal({ show, onClose }) {
   return (
     <Modal show={show} onHide={onClose} centered>
       <Modal.Body className="text-center">
-        <p className="fs-5 mb-4">Employee Created!</p>
+        <p className="fs-5 mb-4">{message}</p>
         <div className="d-flex justify-content-between">
           <Button variant="primary" onClick={handleGoToList}>
             View Current Employees

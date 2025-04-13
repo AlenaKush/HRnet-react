@@ -2,15 +2,13 @@ import { useState } from "react";
 import InputField from "../components/InputField.jsx";
 import SelectField from "../components/SelectField.jsx";
 import DateField from "../components/DateField.jsx";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { states, departments } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../store/employeeSlice";
-import EmployeeModal from '../components/EmployeeModal';
-
+import CustomModal from "../components/CustomModal";
 
 function CreateEmployee() {
-
   const initialState = {
     firstName: "",
     lastName: "",
@@ -36,19 +34,25 @@ function CreateEmployee() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(addEmployee(formData));
+    const newEmployee = { ...formData };
+
+    dispatch(addEmployee(newEmployee));
+    setShowModal(true);
     setFormData(initialState);
-    setShowModal(true);   
   }
-  
+
+  const navigate = useNavigate();
 
   return (
     <div className="mx-auto" style={{ maxWidth: "500px" }}>
       <h1 className="text-center my-3">HRnet</h1>
       <div className="text-center my-3">
-        <Link to="/employee-list" className="btn btn-primary">
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate("/employee-list")}
+        >
           View Current Employees
-        </Link>
+        </button>
       </div>
       <h2 className="text-center my-3">Create Employee</h2>
       <form onSubmit={handleSubmit}>
@@ -114,7 +118,38 @@ function CreateEmployee() {
           </button>
         </div>
       </form>
-      <EmployeeModal show={showModal} onClose={() => setShowModal(false)} />
+      <CustomModal
+        show={showModal}
+        title="Employee Created!"
+        onClose={() => setShowModal(false)}
+        onConfirm={() => navigate("/employee-list")}
+        confirmLabel="View Employees"
+        cancelLabel="OK"
+        showClose={true}
+        style={{
+          buttons: {
+            flexDirection: "row-reverse", 
+          },
+          confirmButton: {
+            backgroundColor: "#0d6efd",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            padding: "10px",
+            cursor: "pointer",
+            flex: 1,
+          },
+          cancelButton: {
+            backgroundColor: "#0d6efd",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            padding: "10px",
+            cursor: "pointer",
+            flex: 1,
+          },
+        }}
+      />
     </div>
   );
 }

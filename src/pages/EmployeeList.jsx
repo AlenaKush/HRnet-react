@@ -1,13 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import EmployeeTable from "../components/EmployeeTable";
 import EntriesSelector from "../components/EntriesSelector";
 import SearchField from "../components/SearchField";
 import TableInfo from "../components/TableInfo";
 import TablePagination from "../components/Pagination";
-import { initEmployees } from "../store/employeeSlice";
-import { mockEmployees } from "../data/mockEmployees";
 
 function EmployeeList() {
   const employees = useSelector((state) => state.employees.employees);
@@ -30,15 +28,6 @@ function EmployeeList() {
   const endIndex = startIndex + entriesPerPage;
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
-  const dispatch = useDispatch();
-
-  const initialized = useSelector((state) => state.employees.initialized);
-
-  useEffect(() => {
-    if (!initialized) {
-      dispatch(initEmployees(mockEmployees));
-    }
-  }, [dispatch, initialized]);
 
   function handleSort(column) {
     if (column === sortColumn) {
