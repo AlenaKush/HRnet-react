@@ -59,6 +59,7 @@ function EmployeeList() {
       <h1 className="text-center">Current Employees</h1>
       <div className="d-flex justify-content-between align-items-center my-3">
         <EntriesSelector
+          id="entriesSelect"
           value={entriesPerPage}
           onChange={(newEntries) => {
             setEntriesPerPage(newEntries);

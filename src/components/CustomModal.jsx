@@ -7,8 +7,8 @@ function CustomModal({
   children,
   onClose,
   onConfirm,
-  confirmLabel = "Confirm",
-  cancelLabel = "Cancel",
+  confirmLabel,
+  cancelLabel,
   showClose = true,
   style = {},
   className = "",
@@ -30,6 +30,7 @@ function CustomModal({
   return (
     <div
       className="modal-overlay"
+      onClick={onClose}
       style={{
         position: "fixed",
         inset: 0,
@@ -43,6 +44,7 @@ function CustomModal({
     >
       <div
         className={`modal-box ${className}`}
+        onClick={(e) => e.stopPropagation()}
         style={{
           backgroundColor: "#fff",
           padding: "2rem",
@@ -54,7 +56,6 @@ function CustomModal({
           position: "relative",
           ...style.modal,
         }}
-        onClick={(e) => e.stopPropagation()} 
       >
         {showClose && (
           <button

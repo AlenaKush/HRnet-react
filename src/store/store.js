@@ -2,19 +2,20 @@ import { configureStore } from "@reduxjs/toolkit";
 import employeeReducer from "./employeeSlice";
 import { mockEmployees } from "../data/mockEmployees";
 
-const preloadedState = {
-  employees: {
-    employees: mockEmployees,
-    initialized: true,
-  },
-};
+const useMock = import.meta.env.VITE_USE_MOCK === "true";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     employees: employeeReducer,
   },
-  preloadedState,
+  ...(useMock && {
+    preloadedState: {
+      employees: {
+        employees: mockEmployees,
+        initialized: true,
+      },
+    },
+  }),
 });
-
 
 export default store;
