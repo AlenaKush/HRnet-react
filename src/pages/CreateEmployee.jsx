@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { states, departments } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../store/employeeSlice";
-import CustomModal from "../components/CustomModal";
+import CustomModal from 'alenakush-custom-modal';
 
 function CreateEmployee() {
   const initialState = {
