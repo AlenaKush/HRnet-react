@@ -6,11 +6,13 @@ function EmployeeTable({ employees, onSort, sortColumn, sortDirection }) {
     return <p className="text-center">No employees found.</p>;
   }
 
+  // get the abbreviated name of the state
   function getAbbreviation(stateName) {
     const match = states.find((s) => s.name === stateName);
     return match ? match.abbreviation : stateName;
   }
 
+  // formatting the date
   function formatDate(dateString) {
     if (!dateString) return "";
     const date = new Date(dateString);

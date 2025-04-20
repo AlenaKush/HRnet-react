@@ -21,14 +21,14 @@ function CreateEmployee() {
     zipCode: "",
   };
 
-  const [formData, setFormData] = useState(initialState);
-  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState(initialState); //controls the state of data
+  const [showModal, setShowModal] = useState(false); //controls the display of modal
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value })); //updates a specific field
   }
 
   function handleSubmit(e) {

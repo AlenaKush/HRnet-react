@@ -8,9 +8,18 @@ import TableInfo from "../components/TableInfo";
 import TablePagination from "../components/Pagination";
 
 function EmployeeList() {
+
+  // --- STATE ----
+  const [entriesPerPage, setEntriesPerPage] = useState(10);  // Number of rows per page
+  const [searchTerm, setSearchTerm] = useState("");          // Search query
+  const [currentPage, setCurrentPage] = useState(1);         // Current page
+  const [sortColumn, setSortColumn] = useState(null);        // Column to sort by
+  const [sortDirection, setSortDirection] = useState("asc"); // Sorting direction
+
+  // --- DATA from Redux ---
   const employees = useSelector((state) => state.employees.employees);
-  const [entriesPerPage, setEntriesPerPage] = useState(10);
-  const [searchTerm, setSearchTerm] = useState("");
+  
+  // --- SEARCH by text and filtration ---
   const filteredEmployees = employees.filter((emp) => {
     const values = [
       emp.firstName,
@@ -23,21 +32,17 @@ function EmployeeList() {
       field.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
-  const [sortColumn, setSortColumn] = useState(null);
-  const [sortDirection, setSortDirection] = useState("asc");
-
+  
+  // --- SORT within column ---
   function handleSort(column) {
     if (column === sortColumn) {
       setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
-      setSortColumn(column);
-      setSortDirection("asc");
+      setSortColumn(column);    // updating the state
+      setSortDirection("asc");  // updating the state
     }
   }
-
+  // sort function
   function sortData(data) {
     if (!sortColumn) return data;
 
@@ -51,6 +56,9 @@ function EmployeeList() {
     });
   }
 
+  // --- PAGINATION: Slice data for current page ---
+  const startIndex = (currentPage - 1) * entriesPerPage;
+  const endIndex = startIndex + entriesPerPage;
   const sortedEmployees = sortData(filteredEmployees);
   const paginatedEmployees = sortedEmployees.slice(startIndex, endIndex);
 

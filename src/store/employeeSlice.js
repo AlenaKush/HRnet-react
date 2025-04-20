@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   employees: [],
-  initialized: false,
+  initialized: false, //flag to avoid reloading mock data.
 };
 
 const employeeSlice = createSlice({
