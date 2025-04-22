@@ -6,6 +6,8 @@ import EntriesSelector from "../components/EntriesSelector";
 import SearchField from "../components/SearchField";
 import TableInfo from "../components/TableInfo";
 import TablePagination from "../components/Pagination";
+import { states } from "../utils/constants";
+
 
 function EmployeeList() {
 
@@ -21,12 +23,14 @@ function EmployeeList() {
   
   // --- SEARCH by text and filtration ---
   const filteredEmployees = employees.filter((emp) => {
+    const stateAbbr = states.find((s) => s.name === emp.state)?.abbreviation || "";
+    
     const values = [
       emp.firstName,
       emp.lastName,
       emp.department,
       emp.city,
-      emp.state,
+      stateAbbr
     ];
     return values.some((field) =>
       field.toLowerCase().includes(searchTerm.toLowerCase())

@@ -136,6 +136,10 @@ function CreateEmployee() {
         cancelLabel="OK"
         showClose={true}
         style={{
+          title: {
+            fontSize: "24px",
+            marginBottom: "40px",
+          },
           buttons: {
             flexDirection: "row-reverse",
           },
