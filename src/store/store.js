@@ -12,6 +12,7 @@ const store = configureStore({
     preloadedState: {
       employees: {
         employees: mockEmployees,
+        entriesCount: 10,
       },
     },
   }),

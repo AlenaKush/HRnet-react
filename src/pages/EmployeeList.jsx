@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EmployeeTable from "../components/EmployeeTable";
 import EntriesSelector from "../components/EntriesSelector";
@@ -12,7 +12,6 @@ import { states } from "../utils/constants";
 function EmployeeList() {
 
   // --- STATE ----
-  const [entriesPerPage, setEntriesPerPage] = useState(10);  // Number of rows per page
   const [searchTerm, setSearchTerm] = useState("");          // Search query
   const [currentPage, setCurrentPage] = useState(1);         // Current page
   const [sortColumn, setSortColumn] = useState(null);        // Column to sort by
@@ -20,7 +19,12 @@ function EmployeeList() {
 
   // --- DATA from Redux ---
   const employees = useSelector((state) => state.employees.employees);
-  
+  const entriesPerPage = useSelector((state) => state.employees.entriesCount);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [entriesPerPage]);
+
   // --- SEARCH by text and filtration ---
   const filteredEmployees = employees.filter((emp) => {
     const stateAbbr = states.find((s) => s.name === emp.state)?.abbreviation || "";
@@ -70,14 +74,7 @@ function EmployeeList() {
     <div className="container mt-4">
       <h1 className="text-center">Current Employees</h1>
       <div className="d-flex justify-content-between align-items-center my-3">
-        <EntriesSelector
-          id="entriesSelect"
-          value={entriesPerPage}
-          onChange={(newEntries) => {
-            setEntriesPerPage(newEntries);
-            setCurrentPage(1);
-          }}
-        />
+        <EntriesSelector id="entriesSelect" />
         <SearchField value={searchTerm} onChange={setSearchTerm} />
       </div>
       <EmployeeTable

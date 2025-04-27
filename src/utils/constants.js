@@ -60,4 +60,6 @@ export const departments = [
     'HR',
     'Legal'
 ];
+
+export const numberOfLines = [10, 25, 50, 100]
   
