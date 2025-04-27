@@ -32,12 +32,16 @@ function EmployeeList() {
     const values = [
       emp.firstName,
       emp.lastName,
+      emp.startDate,
       emp.department,
+      emp.birthDate,
+      emp.street,
       emp.city,
-      stateAbbr
+      stateAbbr,
+      emp.zipCode
     ];
     return values.some((field) =>
-      field.toLowerCase().includes(searchTerm.toLowerCase())
+      String(field).toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
   
