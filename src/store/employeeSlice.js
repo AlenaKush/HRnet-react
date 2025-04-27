@@ -10,11 +10,11 @@ const employeeSlice = createSlice({
   initialState,
   reducers: {
     addEmployee(state, action) {
-      state.employees.push(action.payload);
+      state.employees.push(action.payload); //Adds a new employee
     },
-    initEmployees(state, action) {
+    initEmployees(state, action) { 
       if (!state.initialized) {
-        state.employees = action.payload;
+        state.employees = action.payload; //Loads the initial data, but only if initialized is still false
         state.initialized = true;
       }
     },
