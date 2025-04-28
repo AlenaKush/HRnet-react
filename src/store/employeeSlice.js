@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   employees: [],
-  entriesCount: 10,
 };
 
 const employeeSlice = createSlice({
@@ -12,12 +11,9 @@ const employeeSlice = createSlice({
     addEmployee(state, action) {
       state.employees.push(action.payload); 
     },
-    setEntriesCount(state, action) { 
-      state.entriesCount = action.payload; 
-    },
   },
 });
 
 
-export const { addEmployee, setEntriesCount } = employeeSlice.actions;
+export const { addEmployee } = employeeSlice.actions;
 export default employeeSlice.reducer;

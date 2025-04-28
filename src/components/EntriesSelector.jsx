@@ -2,7 +2,7 @@ import SelectField from './SelectField';
 import { Form } from 'react-bootstrap';
 import { numberOfLines } from "../utils/constants";
 import { useSelector, useDispatch } from 'react-redux';
-import { setEntriesCount } from "../store/employeeSlice";
+import { setEntriesCount } from "../store/tableSlice";
 
 
 

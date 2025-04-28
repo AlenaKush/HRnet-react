@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentPage, setSearchTerm, setSortColumn, setSortDirection } from "../store/tableSlice";
 import { Link } from "react-router-dom";
 import EmployeeTable from "../components/EmployeeTable";
 import EntriesSelector from "../components/EntriesSelector";
@@ -11,25 +11,27 @@ import { states } from "../utils/constants";
 
 function EmployeeList() {
 
-  // --- STATE ----
-  const [searchTerm, setSearchTerm] = useState("");          // Search query
-  const [currentPage, setCurrentPage] = useState(1);         // Current page
-  const [sortColumn, setSortColumn] = useState(null);        // Column to sort by
-  const [sortDirection, setSortDirection] = useState("asc"); // Sorting direction
-
   // --- DATA from Redux ---
   const employees = useSelector((state) => state.employees.employees);
-  const entriesPerPage = useSelector((state) => state.employees.entriesCount);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [entriesPerPage]);
-
+  const entriesCount = useSelector((state) => state.table.entriesCount);
+  const sortColumn = useSelector((state) => state.table.sortColumn);
+  const sortDirection = useSelector((state) => state.table.sortDirection);
+  const currentPage = useSelector((state) => state.table.currentPage);
+  const searchTerm = useSelector((state) => state.table.searchTerm);
+  
+  const dispatch = useDispatch();
+  
+  const handleSearchChange = (term) => {
+    dispatch(setSearchTerm(term));
+    dispatch(setCurrentPage(1)); 
+  };
+  const handlePageChange = (page) => {
+    dispatch(setCurrentPage(page));
+  };
+  
   // --- SEARCH by text and filtration ---
   const filteredEmployees = employees.filter((emp) => {
-    const stateAbbr = states.find((s) => s.name === emp.state)?.abbreviation || "";
-    
-    const values = [
+    const fields = [
       emp.firstName,
       emp.lastName,
       emp.startDate,
@@ -37,10 +39,11 @@ function EmployeeList() {
       emp.birthDate,
       emp.street,
       emp.city,
-      stateAbbr,
-      emp.zipCode
+      states.find((s) => s.name === emp.state)?.abbreviation || "",
+      emp.zipCode,
     ];
-    return values.some((field) =>
+
+    return fields.some((field) =>
       String(field).toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
@@ -48,13 +51,14 @@ function EmployeeList() {
   // --- SORT within column ---
   function handleSort(column) {
     if (column === sortColumn) {
-      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+      dispatch(setSortDirection(sortDirection === "asc" ? "desc" : "asc"));
     } else {
-      setSortColumn(column);    // updating the state
-      setSortDirection("asc");  // updating the state
+      dispatch(setSortColumn(column));
+      dispatch(setSortDirection("asc"));
     }
   }
-  // sort function
+
+  // sort employees by selected column
   function sortData(data) {
     if (!sortColumn) return data;
 
@@ -68,9 +72,9 @@ function EmployeeList() {
     });
   }
 
-  // --- PAGINATION: Slice data for current page ---
-  const startIndex = (currentPage - 1) * entriesPerPage;
-  const endIndex = startIndex + entriesPerPage;
+  // --- PAGINATION: cut sorted data for current page ---
+  const startIndex = (currentPage - 1) * entriesCount;
+  const endIndex = startIndex + entriesCount;
   const sortedEmployees = sortData(filteredEmployees);
   const paginatedEmployees = sortedEmployees.slice(startIndex, endIndex);
 
@@ -79,7 +83,7 @@ function EmployeeList() {
       <h1 className="text-center">Current Employees</h1>
       <div className="d-flex justify-content-between align-items-center my-3">
         <EntriesSelector id="entriesSelect" />
-        <SearchField value={searchTerm} onChange={setSearchTerm} />
+        <SearchField value={searchTerm} onChange={handleSearchChange} />
       </div>
       <EmployeeTable
         employees={paginatedEmployees}
@@ -90,14 +94,14 @@ function EmployeeList() {
       <div className="d-flex justify-content-between align-items-center my-3">
         <TableInfo
           currentPage={currentPage}
-          entriesPerPage={entriesPerPage}
+          entriesPerPage={entriesCount}
           totalEntries={filteredEmployees.length}
         />
         <TablePagination
           currentPage={currentPage}
           totalEntries={filteredEmployees.length}
-          entriesPerPage={entriesPerPage}
-          onPageChange={setCurrentPage}
+          entriesPerPage={entriesCount}
+          onPageChange={handlePageChange}
         />
       </div>
       <div className="text-center">
