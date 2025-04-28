@@ -15,13 +15,6 @@ const store = configureStore({
       employees: {
         employees: mockEmployees,
       },
-      table: {
-        entriesCount: 10,
-        sortColumn: null,
-        sortDirection: "asc",
-        currentPage: 1,
-        searchTerm: "",
-      },
     },
   }),
 });

@@ -2,16 +2,17 @@ import SelectField from './SelectField';
 import { Form } from 'react-bootstrap';
 import { numberOfLines } from "../utils/constants";
 import { useSelector, useDispatch } from 'react-redux';
-import { setEntriesCount } from "../store/tableSlice";
+import { setEntriesCount, setCurrentPage } from "../store/tableSlice";
 
 
 
 function EntriesSelector({ id = "entriesSelect" }) {
   const dispatch = useDispatch();
-  const entriesCount = useSelector((state) => state.employees.entriesCount);
+  const entriesCount = useSelector((state) => state.table.entriesCount);
 
   const handleChange = (e) => {
     dispatch(setEntriesCount(Number(e.target.value)));
+    dispatch(setCurrentPage(1));
   };
 
   return (
